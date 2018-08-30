@@ -1,4 +1,4 @@
-require_relative 'car_factory'
+require 'car_factory'
 
 RSpec.describe CarFactory do
   describe '.new' do
@@ -11,7 +11,7 @@ RSpec.describe CarFactory do
     it 'does allow creation of factory for supported brands only (Fiat, Lancia, Ford, Subaru)' do
       expect do
         CarFactory.new('Fiat Bielsko', brands: :daewoo)
-      end.to raise_error CarFactory::UnsupportedBrandException, "Brand not supported: 'Daewoo'"
+      end.to raise_error UnsupportedBrandException, "Brand not supported: 'Daewoo'"
     end
   end
 
@@ -38,7 +38,7 @@ RSpec.describe CarFactory do
 
         expect do
           factory.make_car
-        end.to raise_error CarFactory::UnsupportedBrandException, 'Factory does not have a brand or do not support it'
+        end.to raise_error UnsupportedBrandException, 'Factory does not have a brand or do not support it'
       end
 
       it "creates an instance of car for factory's given brand" do
@@ -53,7 +53,7 @@ RSpec.describe CarFactory do
 
         expect do
           factory.make_car(:subaru)
-        end.to raise_error CarFactory::UnsupportedBrandException, 'Factory does not have a brand or do not support it'
+        end.to raise_error UnsupportedBrandException, 'Factory does not have a brand or do not support it'
       end
     end
   end
