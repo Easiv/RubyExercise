@@ -34,6 +34,15 @@ class CarFactory
       raise UnsupportedBrandException.new("Factory does not have a brand or do not support it")
     end
   end
+
+  def name
+    if @brands.is_a?(Array)
+      "#{@name} (produces #{@brands.join(', ')})"
+    else
+      "#{@name} (produces #{@brands})"
+    end
+    
+  end
 end
 
 class UnsupportedBrandException < Exception
