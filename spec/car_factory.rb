@@ -7,9 +7,8 @@ class CarFactory
     @brands = brands.values.pop.to_s.capitalize
 
     raise UnsupportedBrandException.new("Brand not supported: '#{@brands}'") unless SUPPORTED_BRANDS.include?(@brands)
-
   end
-
 end
+
 class UnsupportedBrandException < Exception
 end
