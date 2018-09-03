@@ -28,7 +28,7 @@ class CarFactory
     if !car && !@brands.is_a?(Array)
       car = @brands
       Car.new(car)
-    elsif SUPPORTED_BRANDS.include?(@brands) 
+    elsif @brands.include?(car.to_s.capitalize!) 
       Car.new(car)
     else
       raise UnsupportedBrandException.new("Factory does not have a brand or do not support it")
