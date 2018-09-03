@@ -24,6 +24,15 @@ class CarFactory
     end
   end
 
+  def name
+    if @brands.is_a?(Array)
+      "#{@name} (produces #{@brands.join(', ')})"
+    else
+      "#{@name} (produces #{@brands})"
+    end
+    
+  end
+
   def make_car(car=nil)
     if !car && !@brands.is_a?(Array)
       car = @brands
@@ -35,11 +44,30 @@ class CarFactory
     end
   end
 
-  def name
-    if @brands.is_a?(Array)
-      "#{@name} (produces #{@brands.join(', ')})"
+  def make_cars(brands=@brands, amount)
+
+    if brands.is_a?(Array)
+      $i = 0
+      currentBrands = brands.cycle(10).to_a
+      cars = []
+
+      while $i < amount
+        car = Car.new(currentBrands[$i])
+        cars.push(car)
+        $i += 1
+      end
+      cars
+
     else
-      "#{@name} (produces #{@brands})"
+      $i = 0
+      cars = []
+
+      while $i < amount
+        car = Car.new(brands)
+        cars.push(car)
+        $i += 1
+      end
+      cars
     end
     
   end
