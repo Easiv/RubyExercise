@@ -30,7 +30,6 @@ class CarFactory
     else
       "#{@name} (produces #{@brands})"
     end
-    
   end
 
   def make_car(car=nil)
@@ -46,40 +45,41 @@ class CarFactory
 
   def make_cars(brands=@brands, amount)
 
-    if brands.is_a?(Array)
+    cars = []
+
+    if amount.is_a?(Hash)
+      hashBrands = amount.keys.map(&:to_s).map(&:capitalize)
+      diff = hashBrands - SUPPORTED_BRANDS
+
+      if diff != []
+        diff = diff.pop.to_sym.downcase
+      end
+      
+      amount.each { |k, v|  v.times { if k != diff then car = Car.new(k); cars.push(car) end } }
+    end
+
+    if brands.is_a?(Array) && !amount.is_a?(Hash)
       $i = 0
       currentBrands = brands.cycle(10).to_a
-      cars = []
-
       while $i < amount
         car = Car.new(currentBrands[$i])
         cars.push(car)
         $i += 1
       end
-      cars
 
     else
       $i = 0
-      cars = []
-
-      while $i < amount
-        car = Car.new(brands)
-        cars.push(car)
-        $i += 1
+      unless amount.is_a?(Hash)
+        while $i < amount
+          car = Car.new(brands)
+          cars.push(car)
+          $i += 1
+        end
       end
-      cars
     end
-    
+    cars
   end
 end
 
 class UnsupportedBrandException < Exception
 end
-
-=begin
-jezeli w supported brands nie ma danego pojedynczego stringa 
-&& (i)
-jak odejmiesz brands od supported i wynik wyjdzie 4 
-
-TO -> wywal exceptioin
-=end
